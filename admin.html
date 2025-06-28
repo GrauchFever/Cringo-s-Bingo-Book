@@ -110,16 +110,21 @@
     </div>
     <!-- Navbar End -->
 
-    <div id="cart-content" class="row justify-content-center bg-image mx-0 mb-5">
-        <!-- Products will be loaded here -->
-    </div>
+    <div id="adminDashboard" class="row justify-content-center bg-image mx-0 mb-5">Loading admin dashboard...</div>
 
     <script>
-        fetch('getCart.php')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("cart-content").innerHTML = data;
-            });
+        fetch('admin.php')
+          .then(response => {
+            if (!response.ok) throw new Error('Network error');
+            return response.text();
+          })
+          .then(html => {
+            document.getElementById('adminDashboard').innerHTML = html;
+          })
+          .catch(error => {
+            document.getElementById('adminDashboard').innerHTML = 'Failed to load admin dashboard.';
+            console.error(error);
+          });
     </script>
 
     <!-- Footer Start -->
@@ -184,7 +189,10 @@
             </div>
             <div class="row pt-4">
                 <div class="col-md-6 text-center text-md-left mb-3 mb-md-0"></div>
-                <div id="adminLinkContainer" class="col-md-6 text-center text-md-right"></div>
+                <div class="row pt-4">
+                    <div class="col-md-6 text-center text-md-left mb-3 mb-md-0"></div>
+                    <div id="adminLinkContainer" class="col-md-6 text-center text-md-right"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -205,6 +213,5 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>

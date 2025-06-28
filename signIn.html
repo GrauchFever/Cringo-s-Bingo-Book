@@ -146,9 +146,26 @@
                     <p class="m-0">Designed by <a class="text-white" href="https://youtube.com/shorts/D5wjN4AyPIM?si=vF9VLLW100_AyaVL">A Person with Terrible Time Management, For Sure</a></p>
                 </div>
             </div>
+            <div class="row pt-4">
+                <div class="col-md-6 text-center text-md-left mb-3 mb-md-0"></div>
+                <div id="adminLinkContainer" class="col-md-6 text-center text-md-right"></div>
+            </div>
         </div>
     </div>
     <!-- Footer End -->
+
+    <script>
+        fetch('sessionInfo.php')
+          .then(res => res.json())
+          .then(data => {
+            if (data.isAdmin) {
+                const adminLink = document.createElement('a');
+                adminLink.href = 'admin.html';
+                adminLink.textContent = 'Admin';
+                document.getElementById('adminLinkContainer').appendChild(adminLink);
+            }
+        });
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
