@@ -37,6 +37,19 @@
     // Handle product deletion
     if (isset($_GET['delete_product'])) {
         $delete_id = intval($_GET['delete_product']);
+    
+        // Get the image filename/path
+        $imgResult = $conn->query("SELECT image_url FROM products WHERE product_id = $delete_id");
+        if ($imgResult && $imgResult->num_rows > 0) {
+            $row = $imgResult->fetch_assoc();
+            $imagePath = __DIR__ . '/' . $row['image_url'];
+            // Check if the file exists and delete it
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+    
+        // Delete the product from the database
         $result = $conn->query("DELETE FROM products WHERE product_id = $delete_id");
     
         if ($result) {
