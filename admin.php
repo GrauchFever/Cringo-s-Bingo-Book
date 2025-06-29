@@ -22,14 +22,28 @@
     if (isset($_GET['delete_user'])) {
         $delete_id = intval($_GET['delete_user']);
         if ($delete_id != 1) {
-            $conn->query("DELETE FROM accounts WHERE user_id = $delete_id");
+            $result = $conn->query("DELETE FROM accounts WHERE user_id = $delete_id");
+            if ($result) {
+                header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+                exit();
+            } else {
+                echo "Error deleting user: " . $conn->error;
+            }
         }
     }
     
     // Handle product deletion
     if (isset($_GET['delete_product'])) {
         $delete_id = intval($_GET['delete_product']);
-        $conn->query("DELETE FROM products WHERE product_id = $delete_id");
+        $result = $conn->query("DELETE FROM products WHERE product_id = $delete_id");
+
+        if ($result) {
+            // Success: redirect to the same page to refresh
+            header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+            exit();
+        } else {
+            echo "Error deleting product: " . $conn->error;
+        }
     }
     
     // Get all users
