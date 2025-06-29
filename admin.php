@@ -1,4 +1,5 @@
 <?php
+
     session_start();
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
@@ -24,7 +25,8 @@
         if ($delete_id != 1) {
             $result = $conn->query("DELETE FROM accounts WHERE user_id = $delete_id");
             if ($result) {
-                header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+                // Redirect to admin.html after deletion, same as products
+                header("Location: admin.html");
                 exit();
             } else {
                 echo "Error deleting user: " . $conn->error;
@@ -36,10 +38,9 @@
     if (isset($_GET['delete_product'])) {
         $delete_id = intval($_GET['delete_product']);
         $result = $conn->query("DELETE FROM products WHERE product_id = $delete_id");
-
+    
         if ($result) {
-            // Success: redirect to the same page to refresh
-            header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+            header("Location: admin.html");
             exit();
         } else {
             echo "Error deleting product: " . $conn->error;
@@ -66,7 +67,7 @@
         echo '<td>' . htmlspecialchars($row['user_email']) . '</td>';
         echo '<td>';
         if ($row['user_id'] != 1) {
-            echo '<a href="?delete_user=' . $row['user_id'] . '" class="btn btn-danger btn-sm" onclick="return confirm(\'Delete this user?\');">Delete</a>';
+            echo '<a href="admin.php?delete_user=' . $row['user_id'] . '" class="btn btn-danger btn-sm" onclick="return confirm(\'Delete this user?\');">Delete</a>';
         } else {
             echo 'Admin';
         }
@@ -86,7 +87,7 @@
         echo '<td>' . htmlspecialchars($row['product_name']) . '</td>';
         echo '<td>R' . number_format($row['product_price'], 2) . '</td>';
         echo '<td>';
-        echo '<a href="?delete_product=' . $row['product_id'] . '" class="btn btn-danger btn-sm" onclick="return confirm(\'Delete this product?\');">Delete</a>';
+        echo '<a href="admin.php?delete_product=' . $row['product_id'] . '" class="btn btn-danger btn-sm" onclick="return confirm(\'Delete this product?\');">Delete</a>';
         echo '</td>';
         echo '</tr>';
     }
