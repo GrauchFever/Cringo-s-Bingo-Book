@@ -18,11 +18,6 @@
         die("Access denied.");
     }
     
-    $conn = new mysqli("localhost", "root", "", "cringo_db");
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    
     // Handle user deletion (but not admin)
     if (isset($_GET['delete_user'])) {
         $delete_id = intval($_GET['delete_user']);
